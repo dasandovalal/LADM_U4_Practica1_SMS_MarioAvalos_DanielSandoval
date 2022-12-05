@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="mx.edu.ittepic.ladm_u4_practica1_sms_marioavalos_danielsandoval">
 
+    <uses-permission android:name="android.permission.SEND_SMS"/>
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
