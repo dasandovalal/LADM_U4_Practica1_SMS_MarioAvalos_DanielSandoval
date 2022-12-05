@@ -7,6 +7,7 @@ import android.telephony.SmsManager
 import android.util.Log
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -45,9 +46,20 @@ class MainActivity : AppCompatActivity() {
             var telefono = destino.text.toString()
             var mensaje = msg.text.toString()
             var msj = SmsManager.getDefault()
-            msj.sendTextMessage("$telefono", null, "$mensaje",
-                null, null)
-            Toast.makeText(this,"SE ENVIO EL MENSAJE",Toast.LENGTH_SHORT).show()
+            if (telefono.length==10 && mensaje!="") {
+                msj.sendTextMessage(
+                    "$telefono", null, "$mensaje",
+                    null, null
+                )
+                Toast.makeText(this, "SE ENVIO EL MENSAJE", Toast.LENGTH_SHORT).show()
+            }else{
+                AlertDialog.Builder(this)
+                    .setTitle("ERROR")
+                    .setMessage("-> 10 digitos para el telefono.\n      Ej: 3112141938" +
+                            "\n-> El mensaje no debe estar vacio")
+                    .setPositiveButton("OK"){d,i->}
+                    .show()
+            }
         }catch (e:Exception){
             Log.d("~Error","${e.message}")
         }
