@@ -5,11 +5,18 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.telephony.SmsManager
 import android.util.Log
+import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_main.*
+import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.*
+import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
 
@@ -18,6 +25,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        mostrarRegistros()
 
         btnEnviar.setOnClickListener {
             if (ActivityCompat.checkSelfPermission(this,
@@ -51,7 +60,10 @@ class MainActivity : AppCompatActivity() {
                     "$telefono", null, "$mensaje",
                     null, null
                 )
+                destino.text.clear()
+                msg.text.clear()
                 Toast.makeText(this, "SE ENVIO EL MENSAJE", Toast.LENGTH_SHORT).show()
+                insertarFirebase(telefono,mensaje)
             }else{
                 AlertDialog.Builder(this)
                     .setTitle("ERROR")
@@ -65,6 +77,44 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+
+    fun insertarFirebase(telefono:String,mensaje:String){
+        var datos = hashMapOf(
+            "Telefono" to telefono,
+            "Mensaje" to mensaje,
+            "Fecha" to Date().toString()
+        )
+        FirebaseFirestore.getInstance()
+            .collection("EseEmeEses")
+            .add(datos)
+            .addOnSuccessListener {
+                Log.d("~Success","$it")
+            }
+            .addOnFailureListener {
+                Log.w("~Error","Error",it)
+            }
+    }
+
+    fun mostrarRegistros(){
+        try {
+            FirebaseFirestore.getInstance().collection("EseEmeEses")
+                .addSnapshotListener { value, error ->
+                    var lista = ArrayList<String>()
+                    for (document in value!!) {
+                        var datos = "\n${document.getString("Telefono")}" +
+                                "\n${document.getString("Mensaje")}" +
+                                "\n${document.getString("Fecha")}\n"
+                        lista.add(datos)
+                    }
+                    listMensajes.adapter =
+                        ArrayAdapter(this, android.R.layout.simple_list_item_1, lista)
+                }
+        }catch (e:Exception){
+            AlertDialog.Builder(this)
+                .setTitle("ERROR")
+                .setMessage(e.message)
+        }
+    }
 
 
 }

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "136443546638",
+    "project_id": "ladm-u4-sms",
+    "storage_bucket": "ladm-u4-sms.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:136443546638:android:9a2e2e5c0a6c18b7d9805f",
+        "android_client_info": {
+          "package_name": "mx.edu.ittepic.ladm_u4_practica1_sms_marioavalos_danielsandoval"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "136443546638-0mm9f7h0h8jaopm81plgcpnehsqkbc5r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBYZJzBaRFM4r8mPm5dsLsho6IFPZKZxAQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "136443546638-0mm9f7h0h8jaopm81plgcpnehsqkbc5r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
